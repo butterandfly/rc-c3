@@ -1,0 +1,81 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="c3-styles.html">
+<!-- <link rel="import" href="./test-css.html"> -->
+
+<script src="./bower_components/d3/d3.js"></script>
+<script src="./bower_components/c3/c3.js"></script>
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <rc-c3></rc-c3>
+
+Example:
+
+    <rc-c3>
+      <h2>Hello rc-c3</h2>
+    </rc-c3>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="rc-c3">
+  <template>
+    <style include="c3-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h1 class="test">Hihi~!</h1>
+    <div id="c3Box"></div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'rc-c3',
+
+      properties: {
+
+      },
+
+      ready: function() {
+        // this.generate();
+      },
+
+      attached: function() {
+        this.generate();
+      },
+
+      generate: function() {
+        var box = this.$.c3Box;
+        var chart = c3.generate({
+          bindto: box,
+          data: {
+            x: 'x',
+            columns: [
+              ['x', '2013-01-01', '2013-01-02'],
+              ['data1', 30, 200, 100, 400, 150, 250],
+              ['data2', 50, 20, 10, 40, 15, 25]
+            ]
+          },
+          axis: {
+            x: {
+                type: 'timeseries',
+                tick: {
+                    format: '%Y-%m-%d'
+                }
+            }
+          }
+        });
+        this.scopeSubtree(box, true);
+      }
+
+    });
+  </script>
+</dom-module>
