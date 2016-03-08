@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <link rel="import" href="c3-styles.html">
-<!-- <link rel="import" href="./test-css.html"> -->
 
 <script src="./bower_components/d3/d3.js"></script>
 <script src="./bower_components/c3/c3.js"></script>
@@ -15,12 +14,10 @@ Example:
 
 Example:
 
-    <rc-c3>
-      <h2>Hello rc-c3</h2>
+    <rc-c3 type="chart" data="{{data}}">
     </rc-c3>
 
 @demo demo/index.html
-@hero hero.svg
 -->
 
 <dom-module id="rc-c3">
@@ -32,7 +29,6 @@ Example:
       }
     </style>
 
-    <h1 class="test">Hihi~!</h1>
     <div id="c3Box"></div>
   </template>
 
@@ -42,38 +38,59 @@ Example:
 
       properties: {
 
-      },
-
-      ready: function() {
-        // this.generate();
-      },
-
-      attached: function() {
-        this.generate();
+        /**
+         * The type of this chart.
+         * "line", "pie", "donut", "gauge"
+         */
+        type: {
+          type: String
+        },
+        options: {
+          type: Object,
+          observer: '_observeOptions'
+        },
+        // data: {
+        //   type: Object,
+        //   notify: true,
+        //   observer: '_observeData'
+        // }
       },
 
       generate: function() {
         var box = this.$.c3Box;
-        var chart = c3.generate({
-          bindto: box,
-          data: {
-            x: 'x',
-            columns: [
-              ['x', '2013-01-01', '2013-01-02'],
-              ['data1', 30, 200, 100, 400, 150, 250],
-              ['data2', 50, 20, 10, 40, 15, 25]
-            ]
-          },
-          axis: {
-            x: {
-                type: 'timeseries',
-                tick: {
-                    format: '%Y-%m-%d'
-                }
-            }
-          }
-        });
+        this.options.bindto = box;
+
+        // this.options.data = this.data;
+        if (this.type && this.options.data) {
+          this.options.data.type = this.type;
+        }
+
+        this._chart = c3.generate(this.options);
         this.scopeSubtree(box, true);
+      },
+
+      /**
+       * Similar to the `load` function of c3.
+       * Adding data to the chart.
+       *
+       * @param Object newData
+       */
+      load: function(newData) {
+        this._chart.load(newData);
+      },
+
+      /**
+       * Similar to the `unload` function of c3.
+       * Removing data from the chart.
+       *
+       * @param Object removeingData
+       */
+      unload: function(removingData) {
+        this._chart.unload(removingData);
+      },
+
+      _observeOptions: function() {
+        this.generate();
       }
 
     });

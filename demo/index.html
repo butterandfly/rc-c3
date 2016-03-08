@@ -1,22 +1,139 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>rc-c3 Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../rc-c3.html">
-  </head>
-  <body unresolved>
 
-    <p>An example of <code>&lt;rc-c3&gt;</code>:</p>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>rc-c3 Demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../rc-c3.html">
+  <style media="screen">
+    #pie {
+      display: inline-block;
+      width: 200px;
+      height: 200px;
+    }
 
-    <rc-c3>
-    </rc-c3>
+    #donut {
+      display: inline-block;
+      width: 400px;
+      height: 400px;
+    }
+  </style>
+</head>
 
-    <script>
-      // var seedElement = document.querySelector('rc-c3');
-    </script>
+<body unresolved>
 
-  </body>
+  <p>An example of <code>&lt;rc-c3&gt;</code>:</p>
+
+  <h1>Chart</h1>
+  <rc-c3 id="chart" type="line">
+  </rc-c3>
+
+  <h1>Pie</h1>
+  <rc-c3 id="pie" type="pie">
+  </rc-c3>
+
+  <h1>Donut</h1>
+  <rc-c3 id="donut" type="donut">
+  </rc-c3>
+
+  <h1>Gauge</h1>
+  <rc-c3 id="gauge" type="gauge">
+  </rc-c3>
+
+  <h1>Line Chart with Tick</h1>
+  <rc-c3 id="tick" type="line">
+  </rc-c3>
+
+  <script>
+    // ----- chart -----
+    var chart = document.querySelector('rc-c3#chart');
+
+    chart.options = {
+      data: {
+        columns: [
+          ['data1', 30, 200, 100, 400, 150, 250],
+          ['data2', 50, 20, 10, 40, 15, 25]
+        ]
+      }
+    };
+
+    setTimeout(function() {
+      chart.load({
+        columns: [
+          ['data3', 130, 150, 200, 300, 200, 100]
+        ]
+      });
+    }, 1500);
+
+    setTimeout(function() {
+      chart.unload({
+        ids: 'data1'
+      });
+    }, 2000);
+
+    // ----- pie -----
+    var pie = document.querySelector('rc-c3#pie');
+    pie.options = {
+      data: {
+        columns: [
+          ['data1', 30],
+          ['data2', 100]
+        ]
+      }
+    };
+
+    // ----- donut -----
+    var donut = document.querySelector('rc-c3#donut');
+    donut.options = {
+      data: {
+        columns: []
+      }
+    };
+    setTimeout(function() {
+      donut.load({
+        columns: [
+          ['data1', 30],
+          ['data2', 100]
+        ]
+      });
+    }, 2000);
+
+    // ----- gauge -----
+    var gauge = document.querySelector('rc-c3#gauge');
+    gauge.options = {
+      data: {
+        columns: [
+          ['data1', 30]
+        ]
+      }
+    };
+
+    // ----- line with tick.count -----
+    var lineWithTick = document.querySelector('rc-c3#tick');
+    lineWithTick.options = {
+      data: {
+        x: 'x',
+        columns: [
+          ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06', '2013-01-07', '2013-01-08', '2013-01-09', '2013-01-10', '2013-01-11', '2013-01-12'],
+          ['sample', 30, 200, 100,
+            400, 150, 250, 30, 200, 100, 400, 150, 250
+          ]
+        ]
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: {
+            count: 4,
+            format: '%Y-%m-%d'
+          }
+        }
+      }
+    };
+  </script>
+
+</body>
+
 </html>
