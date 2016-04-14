@@ -8,10 +8,15 @@
   <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
   <link rel="import" href="../rc-c3.html">
   <style media="screen">
-    #pie {
+    .pieCont {
       display: inline-block;
       width: 200px;
       height: 200px;
+    }
+
+    .pieCont rc-c3 {
+      width: 100%;
+      height: 100%;
     }
 
     #donut {
@@ -31,8 +36,10 @@
   </rc-c3>
 
   <h1>Pie</h1>
-  <rc-c3 id="pie" type="pie">
-  </rc-c3>
+  <div class="pieCont">
+    <rc-c3 id="pie" type="pie">
+    </rc-c3>
+  </div>
 
   <h1>Donut</h1>
   <rc-c3 id="donut" type="donut">

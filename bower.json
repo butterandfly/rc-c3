@@ -4,11 +4,12 @@
   "authors": [
     "Anonymous <anonymous@example.com>"
   ],
-  "description": "An element providing a solution to no problem in particular.",
+  "description": "The c3 element for polymer.",
   "keywords": [
     "web-component",
     "polymer",
-    "seed"
+    "c3",
+    "d3"
   ],
   "main": "rc-c3.html",
   "license": "http://polymer.github.io/LICENSE.txt",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "^4.0.0"
+    "web-component-tester": "^4.0.0",
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#~1.0.3"
   }
 }

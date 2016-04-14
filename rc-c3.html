@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 
 <link rel="import" href="c3-styles.html">
 
@@ -27,6 +28,16 @@ Example:
       :host {
         display: block;
       }
+
+      .c3-circle {
+        @apply(--c3-circle)
+        /*fill-opacity: 0;*/
+      }
+
+      .c3-circle._expanded_ {
+        @apply(--c3-circle-expanded)
+        /*fill-opacity: 1;*/
+      }
     </style>
 
     <div id="c3Box"></div>
@@ -35,6 +46,12 @@ Example:
   <script>
     Polymer({
       is: 'rc-c3',
+
+      behaviors: [Polymer.IronResizableBehavior],
+
+      listeners: {
+        'iron-resize': '_onIronResize'
+      },
 
       properties: {
 
@@ -48,17 +65,22 @@ Example:
         options: {
           type: Object,
           observer: '_observeOptions'
-        },
-        // data: {
-        //   type: Object,
-        //   notify: true,
-        //   observer: '_observeData'
-        // }
+        }
+      },
+
+      _onIronResize: function() {
+        console.log('resize!');
+        this.resize();
       },
 
       generate: function() {
         var box = this.$.c3Box;
         this.options.bindto = box;
+
+        this.options.size = {
+          width: this.offsetWidth,
+          height: this.offsetHeight
+        };
 
         // this.options.data = this.data;
         if (this.type && this.options.data) {
@@ -67,6 +89,26 @@ Example:
 
         this._chart = c3.generate(this.options);
         this.scopeSubtree(box, true);
+      },
+
+      /**
+       * Resize the c3 chart.
+       * @param Object size if not exist, it will get the parent's size.
+       */
+      resize: function(size) {
+        if (!this._chart) {
+          return;
+        }
+        
+        // 同步size
+        if (!size) {
+          size = {
+            width: this.offsetWidth,
+            height: this.offsetHeight
+          };
+        }
+
+        this._chart.resize(size);
       },
 
       /**
