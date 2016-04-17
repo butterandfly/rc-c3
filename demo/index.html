@@ -45,7 +45,7 @@
   <rc-c3 id="donut" type="donut">
   </rc-c3>
 
-  <h1>Gauge</h1>
+  <h1>Gauge(with size)</h1>
   <rc-c3 id="gauge" type="gauge">
   </rc-c3>
 
@@ -109,6 +109,7 @@
 
     // ----- gauge -----
     var gauge = document.querySelector('rc-c3#gauge');
+    gauge.size = {width: 100, height: 100};
     gauge.options = {
       data: {
         columns: [

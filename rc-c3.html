@@ -62,25 +62,47 @@ Example:
         type: {
           type: String
         },
+
         options: {
           type: Object,
           observer: '_observeOptions'
+        },
+
+        /**
+         * The size of this chart.
+         * {width: 100, height: 100}
+         */
+        size: {
+          type: Object,
+          notify: true,
+          observer: '_observeSize'
         }
       },
 
       _onIronResize: function() {
-        console.log('resize!');
         this.resize();
+      },
+
+      _observeSize: function(size) {
+        this.resize(size);
       },
 
       generate: function() {
         var box = this.$.c3Box;
         this.options.bindto = box;
 
-        this.options.size = {
-          width: this.offsetWidth,
-          height: this.offsetHeight
-        };
+        // 优先使用prop里面的size
+        if (this.size) {
+          this.options.size = this.size;
+        }
+
+        if (!this.options.size) {
+          // 使用父元素里的size
+          this.options.size = {
+            width: this.offsetWidth,
+            height: this.offsetHeight
+          };
+        }
 
         // this.options.data = this.data;
         if (this.type && this.options.data) {
@@ -99,8 +121,9 @@ Example:
         if (!this._chart) {
           return;
         }
-        
+
         // 同步size
+        size = size || this.size;
         if (!size) {
           size = {
             width: this.offsetWidth,
