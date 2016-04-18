@@ -76,11 +76,19 @@ Example:
           type: Object,
           notify: true,
           observer: '_observeSize'
+        },
+
+        autoResize: {
+          type: Boolean,
+          notify: true,
+          value: false
         }
       },
 
       _onIronResize: function() {
-        this.resize();
+        if (this.autoResize) {
+          this.resize();
+        }
       },
 
       _observeSize: function(size) {
